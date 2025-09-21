@@ -1,36 +1,148 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Android 16KB Page Size Checker
+
+A minimalist web tool to help Android developers check whether their APKs or native libraries are compatible with Android's 16KB memory page size requirement for Google Play compliance.
+
+## Features
+
+- **File Upload**: Upload APK files or ZIP archives containing native libraries
+- **Real-time Analysis**: Uses the provided `script.sh` to perform comprehensive ELF alignment checks
+- **Structured Results**: Displays detailed analysis with library-by-library breakdown
+- **Modern UI**: Clean, responsive interface with dark mode support
+- **Google Play Compliance**: Specifically designed for the November 1st, 2025 deadline
+
+## What It Checks
+
+- ✅ APK zip-alignment for 16KB boundaries (requires build-tools 35.0.0+)
+- ✅ ELF segment alignment in native libraries (arm64-v8a and x86_64)
+- ✅ Compliance with Android 16KB page size requirements
+- ✅ Critical vs non-critical architecture identification
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
+- Node.js 18+ 
+- Bun, npm, or yarn
+- Unix-like system (macOS, Linux) for running the shell script
+
+### Installation
+
+1. Clone the repository:
 ```bash
+git clone <repository-url>
+cd webtool-checking-16kb
+```
+
+2. Install dependencies:
+```bash
+bun install
+# or
+npm install
+# or
+yarn install
+```
+
+3. Make the script executable:
+```bash
+chmod +x public/script.sh
+```
+
+4. Start the development server:
+```bash
+bun dev
+# or
 npm run dev
 # or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+5. Open [http://localhost:3000](http://localhost:3000) in your browser
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Usage
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. **Upload File**: Drag and drop an APK or ZIP file, or click to browse
+2. **Wait for Analysis**: The tool will run the compatibility check script
+3. **Review Results**: See detailed analysis with pass/fail status for each library
+4. **Take Action**: Follow recommendations to fix any alignment issues
 
-## Learn More
+## API Endpoints
 
-To learn more about Next.js, take a look at the following resources:
+### POST `/api/scan`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Uploads and analyzes a file for 16KB compatibility.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+**Request:**
+- `Content-Type: multipart/form-data`
+- `file`: APK or ZIP file
 
-## Deploy on Vercel
+**Response:**
+```json
+{
+  "success": true,
+  "results": {
+    "status": "success|error",
+    "totalLibraries": 5,
+    "alignedLibraries": 4,
+    "unalignedLibraries": 1,
+    "criticalFailures": 0,
+    "libraries": [...],
+    "summary": "Analysis summary",
+    "complianceStatus": "PASSED|FAILED",
+    "recommendations": [...]
+  }
+}
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Technical Details
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Frontend**: Next.js 15 with React 19, TypeScript, Tailwind CSS
+- **Backend**: Next.js API routes with file upload handling
+- **Analysis**: Custom shell script (`script.sh`) for ELF alignment checking
+- **Icons**: Lucide React for consistent iconography
+- **Styling**: Tailwind CSS with custom dark mode support
+
+## File Structure
+
+```
+src/
+├── app/
+│   ├── api/scan/route.ts    # File upload and analysis API
+│   ├── globals.css          # Global styles and dark mode
+│   ├── layout.tsx           # Root layout with metadata
+│   └── page.tsx             # Main UI component
+public/
+└── script.sh                # ELF alignment checker script
+```
+
+## Dependencies
+
+- `next`: React framework
+- `react`: UI library
+- `lucide-react`: Icon library
+- `formidable`: File upload handling
+- `tailwindcss`: Styling framework
+
+## Browser Support
+
+- Chrome 90+
+- Firefox 88+
+- Safari 14+
+- Edge 90+
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
+
+## License
+
+MIT License - see LICENSE file for details
+
+## Related Resources
+
+- [Android 16KB Page Size Guide](https://developer.android.com/guide/practices/page-sizes)
+- [Google Play 16KB Requirements](https://developer.android.com/guide/practices/page-sizes)
+- [Android NDK Documentation](https://developer.android.com/ndk/guides/)
