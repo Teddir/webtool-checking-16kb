@@ -1,6 +1,6 @@
 'use client';
 
-import { Shield, Github, Mail, ExternalLink } from 'lucide-react';
+import { Shield, Github, ExternalLink } from 'lucide-react';
 
 export default function Footer() {
   return (

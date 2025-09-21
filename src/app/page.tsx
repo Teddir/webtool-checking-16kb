@@ -89,13 +89,6 @@ export default function Home() {
     }
   }, []);
 
-  const handleFileInput = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = Array.from(e.target.files || []);
-    if (files.length > 0) {
-      handleFileUpload(files[0]);
-    }
-  }, [handleFileUpload]);
-
   const tryAnotherFile = useCallback(() => {
     setUploadedFile(null);
     setResults(null);

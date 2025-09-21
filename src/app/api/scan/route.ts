@@ -55,15 +55,27 @@ export async function POST(request: NextRequest) {
         const result = await execAsync(`"${scriptPath}" "${filePath}"`);
         stdout = result.stdout;
         stderr = result.stderr;
-      } catch (error: any) {
-        // The script returns exit code 1 when unaligned libraries are found - this is expected
-        if (error.code === 1 && error.stdout) {
-          stdout = error.stdout;
-          stderr = error.stderr || '';
+      } catch (error: unknown) {
+        // Use type guard to access error properties safely
+        if (
+          typeof error === 'object' &&
+          error !== null &&
+          'code' in error &&
+          'stdout' in error
+        ) {
+          const err = error as { code: number; stdout: string; stderr?: string };
+      
+          // The script returns exit code 1 when unaligned libraries are found - this is expected
+          if (err.code === 1 && err.stdout) {
+            stdout = err.stdout;
+            stderr = err.stderr || '';
+          } else {
+            throw error;
+          }
         } else {
           throw error;
         }
-      }
+      }      
       
       // Parse the output to extract structured results
       const results = parseScriptOutput(stdout, stderr);

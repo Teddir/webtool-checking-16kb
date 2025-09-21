@@ -1,6 +1,6 @@
 'use client';
 
-import { CheckCircle, XCircle, AlertTriangle, File, Upload } from 'lucide-react';
+import { CheckCircle, XCircle, File, Upload } from 'lucide-react';
 
 interface LibraryResult {
   name: string;
@@ -41,7 +41,7 @@ export default function ResultsDisplay({ results }: ResultsDisplayProps) {
             </h3>
           </div>
           <div className="space-y-3 text-green-700 dark:text-green-300">
-            <p>Your app meets all the requirements for Google Play's 16KB page size compliance.</p>
+            <p>Your app meets all the requirements for Google Play&apos;s 16KB page size compliance.</p>
             <div className="bg-white dark:bg-gray-800 rounded-lg p-4">
               <h4 className="font-medium text-gray-900 dark:text-gray-100 mb-2">Next Steps:</h4>
               <ul className="space-y-1 text-sm">
