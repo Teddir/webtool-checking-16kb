@@ -61,7 +61,7 @@ export default function Footer() {
             </h4>
             <div className="space-y-3">
               <a 
-                href="https://github.com/teddir/16kb-checker"
+                href="https://github.com/Teddir/webtool-checking-16kb"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
